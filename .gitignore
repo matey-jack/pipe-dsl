@@ -1,4 +1,6 @@
-*.class
+.idea
+
+.*.class
 *.log
 
 # sbt specific
