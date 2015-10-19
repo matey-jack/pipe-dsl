@@ -1,8 +1,11 @@
 package com.scout24.pipedsl
 
+import java.util
+
 import com.amazonaws.regions.{Regions, Region}
 import com.amazonaws.services.datapipeline.DataPipelineClient
 import com.amazonaws.services.datapipeline.model.{CreatePipelineRequest, PutPipelineDefinitionRequest}
+import com.scout24.pipedsl.model.PipelineObject
 
 package object examples {
   val region_eu_west = Region.getRegion(Regions.EU_WEST_1)
@@ -18,6 +21,6 @@ package object examples {
   ).getPipelineId
   val put_def_rq = new PutPipelineDefinitionRequest()
     .withPipelineId(pipe_id)
-    .withPipelineObjects()
+    .withPipelineObjects(new util.ArrayList[com.amazonaws.services.datapipeline.model.PipelineObject]())
   client.putPipelineDefinition(put_def_rq)
 }

@@ -1,5 +1,8 @@
 package com.scout24.pipedsl.model
 
-class Schedule extends PipelineObject {
+import java.time.temporal.ChronoUnit
 
+
+class Schedule(id : String, period : Int, periodUnit : ChronoUnit) extends PipelineObject(id, "Schedule") {
+  addValueField("period", period.toString ++ " " ++ periodUnit.toString.capitalize)
 }
