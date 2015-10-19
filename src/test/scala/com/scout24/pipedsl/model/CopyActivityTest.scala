@@ -15,10 +15,10 @@ class CopyActivityTest extends  FlatSpec with Matchers  {
     val source: S3DataNode = new S3DataNode("s3source", new DirectoryPath("s3://source-bucket/source-directory"), null)
     val destination: S3DataNode = new S3DataNode("s3dest", new FilePath("s3://dest-bucket/merged-data/file.gz"), null)
     val schedule: Schedule = new Schedule("mySchedule", 15, ChronoUnit.Minutes)
-    val c = new CopyActivity("myCopyActivity", source, destination, schedule)
+    val copyActivity = new CopyActivity("myCopyActivity", source, destination, schedule)
 
     val putDefinitionReq = new PutPipelineDefinitionRequest().withPipelineId("pipeId")
-                              .withPipelineObjects(c.withReferencedObjects.asJavaCollection)
+                              .withPipelineObjects(copyActivity.withReferencedObjects.asJavaCollection)
     val request = new PutPipelineDefinitionRequestMarshaller().marshall(putDefinitionReq)
     val reqContent = scala.io.Source.fromInputStream(request.getContent).mkString
 
