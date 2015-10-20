@@ -10,18 +10,20 @@ import scala.collection.JavaConverters._
 class CopyActivityTest extends  FlatSpec with Matchers  {
 
 
-  "CopyActivity" should "produce correct json" in {
+  "CopyActivity" should "produce correct Json" in {
     // Given a simple Data Pipeline Structure
     val source: S3DataNode = new S3DataNode("s3source", new DirectoryPath("s3://source-bucket/source-directory"), null)
     val destination: S3DataNode = new S3DataNode("s3dest", new FilePath("s3://dest-bucket/merged-data/file.gz"), null)
     val schedule: Schedule = new Schedule("mySchedule", 15, ChronoUnit.Minutes)
     val copyActivity = new CopyActivity("myCopyActivity", source, destination, schedule)
 
+    // use AWS SDK to create an API request
     val putDefinitionReq = new PutPipelineDefinitionRequest().withPipelineId("pipeId")
                               .withPipelineObjects(copyActivity.withReferencedObjects.asJavaCollection)
     val request = new PutPipelineDefinitionRequestMarshaller().marshall(putDefinitionReq)
-    val reqContent = scala.io.Source.fromInputStream(request.getContent).mkString
 
+    // check that request has correct Json
+    val reqContent = scala.io.Source.fromInputStream(request.getContent).mkString
     reqContent shouldEqual """{
                                "pipelineId": "pipeId",
                                "pipelineObjects": [
